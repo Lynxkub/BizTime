@@ -2,6 +2,8 @@
 
 DROP TABLE IF EXISTS invoices;
 DROP TABLE IF EXISTS companies;
+DROP TABLE IF EXISTS industries;
+DROP TABLE IF EXISTS comp_ind;
 
 CREATE TABLE companies (
     code text PRIMARY KEY,
@@ -17,6 +19,16 @@ CREATE TABLE invoices (
     add_date date DEFAULT CURRENT_DATE NOT NULL,
     paid_date date,
     CONSTRAINT invoices_amt_check CHECK ((amt > (0)::double precision))
+);
+
+CREATE TABLE industries (
+    code text NOT NULL PRIMARY KEY,
+    field text NOT NULL
+);
+
+CREATE TABLE compind (
+    comp_code text NOT NULL REFERENCES companies ON DELETE CASCADE,
+    ind_code text NOT NULL REFERENCES industries
 );
 
 INSERT INTO companies
